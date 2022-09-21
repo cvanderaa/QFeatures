@@ -41,7 +41,7 @@ sure that these match the class validity requirements."><meta property="og:image
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">QFeatures</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.7.3</span>
       </span>
     </div>
 
@@ -126,11 +126,20 @@ plot(x, interactive = FALSE, ...)
 # S4 method for QFeatures,ANY,ANY,ANY
 [(x, i, j, ..., drop = TRUE)
 
-# S4 method for QFeatures
-dims(x)
-
 # S4 method for QFeatures,character,ANY,ANY
 [(x, i, j, k, ..., drop = TRUE)
+
+# S4 method for QFeatures
+c(x, ...)
+
+# S4 method for QFeatures
+dims(x, use.names = TRUE)
+
+# S4 method for QFeatures
+nrows(x, use.names = TRUE)
+
+# S4 method for QFeatures
+ncols(x, use.names = TRUE)
 
 # S4 method for QFeatures
 rowData(x, use.names = TRUE, ...)
@@ -230,8 +239,8 @@ variables (columns) to retain in any assay.</p></dd>
 
 
 <dt>index</dt>
-<dd><p>The assay indicator within a <code>SummarizedExperiment</code>
-objects. A vector input is supported in the case that the
+<dd><p>The assay indicator within each <code>SummarizedExperiment</code>
+object. A vector input is supported in the case that the
 <code>SummarizedExperiment</code> object(s) has more than one assay
 (default <code>1L</code>)</p></dd>
 
