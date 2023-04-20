@@ -41,7 +41,7 @@ sure that these match the class validity requirements."><meta property="og:image
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">QFeatures</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.9.4</span>
       </span>
     </div>
 
@@ -173,6 +173,8 @@ replaceAssay(x, y, i)
 # S4 method for QFeatures
 updateObject(object, ..., verbose = FALSE)
 
+dropEmptyAssays(object, dims = 1:2)
+
 QFeatures(..., assayLinks = NULL)</code></pre></div>
     </div>
 
@@ -195,7 +197,7 @@ is generated. We recommend interactive exploration when the
 
 <dt>...</dt>
 <dd><p>See <code>MultiAssayExperiment</code> for details. For <code>plot</code>,
-further arguments passed to <code><a href="https://rdrr.io/pkg/igraph/man/plot.igraph.html" class="external-link">igraph::plot.igraph</a></code>.</p></dd>
+further arguments passed to <code><a href="https://r.igraph.org/reference/plot.igraph.html" class="external-link">igraph::plot.igraph</a></code>.</p></dd>
 
 
 <dt>i</dt>
@@ -265,6 +267,14 @@ the assays already present in <code>x</code>.</p></dd>
 
 <dt>verbose</dt>
 <dd><p>logical (default FALSE) whether to print extra messages</p></dd>
+
+
+<dt>dims</dt>
+<dd><p><code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code> that defines the dimensions to consider to
+drop empty assays. 1 for rows (i.e. assays without any
+features) and 2 for columns (i.e. assays without any
+samples). Default is <code>1:2</code>. Any value other that 1 and/or 2
+will trigger an error.</p></dd>
 
 </dl></div>
     <div id="constructors">
@@ -362,6 +372,9 @@ in <code>rowvars</code> in the <code>x</code> instance of class <code>QFeatures<
 variables than <code>rowvars</code> will be dropped. In case an element in
 <code>rowvars</code> isn't found in any <code>rowData</code> variable, a message is
 printed.</p></li>
+<li><p>The <code>dropEmptyAssays(object, dims)</code> function removes empty
+assays from a <code>QFeatures</code>. Empty assays are defined as having 0
+rows and/or 0 columns, as defined by the <code>dims</code> argument.</p></li>
 </ul></div>
     <div id="see-also">
     <h2>See also</h2>
