@@ -1,9 +1,9 @@
 pandoc: 3.1.1
-pkgdown: 2.0.7.9000
-pkgdown_sha: 3979e7c0afbba4503248dc8a6d04fe0a2e03f26f
+pkgdown: 2.0.8
+pkgdown_sha: 8dcf24e0f9f01058eb9023507303d4c973d9415b
 articles:
   Processing: Processing.html
   QFeatures: QFeatures.html
   Visualization: Visualization.html
-last_built: 2024-03-11T13:51Z
+last_built: 2024-04-10T19:40Z
 
