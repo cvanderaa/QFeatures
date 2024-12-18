@@ -4,5 +4,6 @@ pkgdown_sha: 5c03b7444923f7c797b8b283e175f8eed63797a7
 articles:
   Processing: Processing.html
   QFeatures: QFeatures.html
+  read_QFeatures: read_QFeatures.html
   Visualization: Visualization.html
-last_built: 2024-12-18T16:49Z
+last_built: 2024-12-18T16:59Z
