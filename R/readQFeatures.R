@@ -336,14 +336,14 @@ readQFeatures <- function(assayData,
     }
     if (removeEmptyCols) el <- .removeEmptyColumns(el)
     if (verbose) message("Formatting sample annotations (colData).")
-    colData <- .formatColData(el, colData, runs, quantCols)
+    colData <- .formatColData(el, colData, runs)
     if (verbose) message("Formatting data as a 'QFeatures' object.")
     ans <- QFeatures(experiments = el, colData = colData)
     if (!is.null(fnames)) {
         if (verbose) message("Setting assay rownames.")
         ans <- .setAssayRownames(ans, fnames)
     }
-    ans
+    setQFeaturesType(ans, "bulk")
 }
 
 
@@ -494,28 +494,29 @@ readQFeatures <- function(assayData,
 
 ## This function will create a colData from the different (possibly
 ## missing, i.e. NULL) arguments
-.formatColData <- function(el, colData, runs, quantCols) {
+.formatColData <- function(el, colData, runs) {
     sampleNames <- unlist(lapply(el, colnames), use.names = FALSE)
     if (is.null(colData))
         return(DataFrame(row.names = sampleNames))
-    if (!length(runs)) {
-        if ("quantCols" %in% colnames(colData)) {
-            # use quantCols column as quantCols argument
-            # can have different ordering
-            rownames(colData) <- colData$quantCols
-        } else if (length(quantCols) == nrow(colData)) {
-            # no quantCols column, we prioritize quantCols argument
-            rownames(colData) <- quantCols
-        } else {
-            rownames(colData) <- sampleNames
-        }
+    # assign colData rownames to match colData to sampleNames
+    # colData$quantCols presence was checked by .checkQuantCols
+    if (is.null(runs)) {
+        # use colData$quantCols as rownames
+        rownames(colData) <- colData$quantCols
     } else {
-        if (length(quantCols) == 1) {
-            rownames(colData) <- colData$runCol
+        # run information is present, colData should match individual runs
+        # the presence of colData$runCol was checked by .checkRunCol
+        if (any(duplicated(colData$runCol))) {
+            # quantCols as postfix if runCol is duplicated
+            newrn <- paste0(colData$runCol, "_", colData$quantCols)
+            if (any(duplicated(newrn))) 
+                stop("There are duplicated samples in the colData table.")
+            rownames(colData) <- newrn
         } else {
-            rownames(colData) <- paste0(colData$runCol, "_", colData$quantCols)
+            rownames(colData) <- colData$runCol
         }
     }
+    # match colData to sampleNames
     colData <- colData[sampleNames, , drop = FALSE]
     rownames(colData) <- sampleNames ## clean NA in rownames
     colData
@@ -531,7 +532,10 @@ readQFeatures <- function(assayData,
                  function(x) stopifnot(fcol %in% names(x)))
     expl <- lapply(experiments(object),
                    function(x) {
-                       rownames(x) <- rowData(x)[[fcol]]
+                       rn <- rowData(x)[[fcol]]
+                       if (anyDuplicated(rn))
+                           rn <- make.unique(rn)
+                       rownames(x) <- rn
                        x
                    })
     experiments(object) <- List(expl)
