@@ -509,7 +509,7 @@ readQFeatures <- function(assayData,
         if (any(duplicated(colData$runCol))) {
             # quantCols as postfix if runCol is duplicated
             newrn <- paste0(colData$runCol, "_", colData$quantCols)
-            if (any(duplicated(newrn))) 
+            if (any(duplicated(newrn)))
                 stop("There are duplicated samples in the colData table.")
             rownames(colData) <- newrn
         } else {
