@@ -194,7 +194,11 @@ readQFeaturesFromDIANN(x, colData = cd)
 
 x2 <- read.delim(MsDataHub::Report.Derks2022.plexDIA.tsv())
 #> see ?MsDataHub and browseVignettes('MsDataHub') for documentation
+#> Error while performing HEAD request.
+#>    Proceeding without cache information.
 #> loading from cache
+#> Error while performing HEAD request.
+#>    Proceeding without cache information.
 x2[["File.Name"]] <- x2[["Run"]]
 readQFeaturesFromDIANN(x2, multiplexing = "mTRAQ")
 #> Pivoting quantiative data.
